@@ -345,7 +345,8 @@ class FolderAdmin(PrimitivePermissionAwareModelAdmin):
             folder_qs = folder_qs.exclude(**root_exclude_kw)
 
         folder_children += folder_qs
-        folder_files += file_qs
+        # return the real instance object (Image) and not File obj
+        folder_files += [item.get_real_instance() for item in file_qs]
 
         try:
             permissions = {
